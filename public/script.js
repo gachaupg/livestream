@@ -16,7 +16,7 @@ const  peers = {}
 
 navigator.mediaDevices.getUserMedia({
     video: true,
-    audio:false,
+    audio:true,
 }).then(stream =>{
     myVideoSteam = stream
     addVideoStream(myVideo, myVideoSteam)
@@ -86,14 +86,15 @@ const scrollToBottom = () =>{
 }
 
 
-const muteUnmuteAudio = () =>{
-    const enabled = myVideoSteam.getAudioTracks()[0].enabled
-    if(enabled){
-        myVideoSteam.getAudioTracks()[0].enabled = false
-        setUnmuteButton()
-    }else{
-        setMuteButton()
-        myVideoSteam.getAudioTracks()[0].enabled = true
+const muteUnmuteAudio = () => {
+    const audioTrack = myVideoSteam.getAudioTracks()[0];
+    if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        if (audioTrack.enabled) {
+            setMuteButton();
+        } else {
+            setUnmuteButton();
+        }
     }
 }
 
